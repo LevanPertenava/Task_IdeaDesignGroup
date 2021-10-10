@@ -1,0 +1,57 @@
+﻿@model OrganizationModel
+
+@{
+    ViewBag.Title = "Organization Details";
+}
+
+<div class="container">
+    <h3>Company Details</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Activity</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="col-sm-1">@Model.OrganizationName</td>
+                <td class="col-sm-1">@Model.Address</td>
+                <td class="col-sm-1">@Model.Activity</td>
+            </tr>
+        </tbody>
+    </table>
+    <br />
+    <h4 class="text-primary">List of Employees</h4>
+    <a asp-action="AddEmployeeToOrganization" asp-route-organizationId="@Model.Id" class="btn btn-primary mb-3">Add a new employee</a>
+    @if (Model.Persons.Count != 0)
+    {
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Lastname</th>
+                    <th>Personal ID</th>
+                    <th></th>
+
+            </thead>
+            @foreach (var person in Model.Persons)
+            {
+                <tbody>
+                    <tr>
+                        <td class="col-sm-3">@person.FirstName</td>
+                        <td class="col-sm-3">@person.LastName</td>
+                        <td class="col-sm-3">@person.PersonalNumber</td>
+                        <td class="col-sm-3"><a asp-action="RemoveEmployeeFromOrganization" asp-route-personId="@person.Id" asp-route-organizationId="@Model.Id">Remove</a></td>
+                    </tr>
+                </tbody>
+
+            }
+        </table>
+    }
+    else
+    {
+        <p>No Employees are listed yet.</p>
+    }
+    <a class="btn btn-primary" asp-controller="Organization" asp-action="OrganizationsList">Return</a>
+</div>

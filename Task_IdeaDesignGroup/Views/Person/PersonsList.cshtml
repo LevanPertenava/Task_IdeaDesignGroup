@@ -1,0 +1,97 @@
+﻿@model IEnumerable<PersonModel>
+
+@{
+    ViewBag.Title = "List of persons";
+
+    int currentPage = ViewBag.Page;
+    int totalPages = ViewBag.TotalPages;
+    string search = ViewBag.SearchText;
+}
+
+<div class="container">
+    <h2>Person List</h2>
+    <br />
+
+    <form asp-controller="Person" asp-action="PersonsList" method="get" class="mb-3">
+        @if (string.IsNullOrEmpty(search))
+        {
+            <input type="search" name="search" placeholder="Search" autocomplete="off" class="form-control col-2" />
+        }
+        else
+        {
+            <input type="search" name="search" placeholder="Search" value="@search" autocomplete="off" class="form-control col-2" />
+        }
+    </form>
+
+    <a class="btn btn-primary mb-3" asp-action="AddOrEdit">Add a person</a>
+
+    @if (Model.Any())
+    {
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="col-sm-2">Name</th>
+                    <th class="col-sm-2">Lastname</th>
+                    <th class="col-sm-2">Personal ID</th>
+                    <th class="col-sm-3"></th>
+                </tr>
+            </thead>
+            @foreach (var person in Model)
+            {
+                <tbody>
+                    <tr style="border-color:black">
+                        <td>@person.FirstName</td>
+                        <td>@person.LastName</td>
+                        <td>@person.PersonalNumber</td>
+                        <td class="col-sm-1">
+                            <a asp-action="PersonDetails" asp-route-id="@person.Id" class="m-4"><b>View</b></a>
+                            <a asp-action="AddOrEdit" asp-route-id="@person.Id" class="m-4"><b>Edit</b></a>
+                            <a asp-action="Delete" asp-route-id="@person.Id" class="m-4" onclick="return confirm('Are you sure you want to delete?')"><b>Delete</b></a>
+                        </td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                @if (currentPage != 1)
+                {
+                    var prev = currentPage - 1;
+                    <li class="page-item"><a class="page-link" asp-action="PersonsList" asp-route-page="@prev" asp-route-search="@search">Previous</a></li>
+                }
+
+                @for (int i = currentPage - 3; i < currentPage; i++)
+                {
+                    if (currentPage == 1)
+                        break;
+
+                    if (i <= 0)
+                        i = 1;
+
+                    <li class="page-item"><a class="page-link" asp-action="PersonsList" asp-route-page="@i" asp-route-search="@search">@i</a></li>
+                }
+
+                <li class="page-item"><a class="page-link disabled">@currentPage</a></li>
+
+                @for (int i = currentPage + 1; i <= currentPage + 3; i++)
+                {
+                    if (i > totalPages)
+                    {
+                        break;
+                    }
+                    <li class="page-item"><a class="page-link" asp-action="PersonsList" asp-route-page="@i" asp-route-search="@search">@i</a></li>
+                }
+
+                @if (currentPage != totalPages)
+                {
+                    int next = currentPage + 1;
+                    <li class="page-item"><a class="page-link" asp-action="PersonsList" asp-route-page="@next" asp-route-search="@search">Next</a></li>
+                }
+            </ul>
+        </nav>
+    }
+    else
+    {
+        <h4>No person was found</h4>
+    }
+</div>

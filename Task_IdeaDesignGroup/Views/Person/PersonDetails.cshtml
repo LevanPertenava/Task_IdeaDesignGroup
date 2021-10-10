@@ -1,0 +1,34 @@
+﻿@model PersonModel
+
+@{
+    ViewBag.Title = "Person Details";
+}
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Lastname</th>
+                <th>Gender</th>
+                <th>Personal ID</th>
+                <th>Date of birth</th>
+                <th>City</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="col-sm-1">@Model.FirstName</td>
+                <td class="col-sm-1">@Model.LastName</td>
+                <td class="col-sm-1">@Model.Gender</td>
+                <td class="col-sm-1">@Model.PersonalNumber</td>
+                <td class="col-sm-1">@Model.DateOfBirth.Value.ToShortDateString()</td>
+                <td class="col-sm-1">@Model.City</td>
+                <td class="col-sm-1">@Model.PhoneNumber</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" asp-action="PersonsList">Return</a>
+</div>

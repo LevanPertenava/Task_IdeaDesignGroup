@@ -1,0 +1,72 @@
+﻿@model PersonModel
+
+<div class="row justify-content-sm-center">
+    <div class="col-md-6">
+        <form asp-action="AddOrEdit" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="col-form-label"></label>
+                <input asp-for="FirstName" class="form-control" autocomplete="off" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="LastName" class="col-form-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="PersonalNumber" class="col-form-label"></label>
+                <input asp-for="PersonalNumber" class="form-control" autocomplete="off" />
+                <span asp-validation-for="PersonalNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Gender"></label>
+                <select asp-for="Gender" class="custom-select mr-sm-2 form-select" asp-items="Html.GetEnumSelectList<Gender>()">
+                    <option value="" disabled selected class="text-secondary">Please select</option>
+                </select>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+
+            @if (Model.DateOfBirth is not null)
+            {
+                var date = Model.DateOfBirth.Value.Date.ToShortDateString();
+                string[] split = date.Split("/");
+                date = $"{split[2]}-{split[0]}-{split[1]}";
+
+                <div class="form-group">
+                    <label asp-for="DateOfBirth" class="col-form-label"></label>
+                    <input type="date" asp-for="DateOfBirth" value="@date" class="form-control" />
+                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label asp-for="DateOfBirth" class="col-form-label"></label>
+                    <input type="date" asp-for="DateOfBirth" class="form-control" autocomplete="off" />
+                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                </div>
+            }
+
+            <div class="form-group">
+                <label asp-for="City" class="col-form-label"></label>
+                <input asp-for="City" class="form-control" autocomplete="off" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="col-form-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" autocomplete="off" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary mt-2" />
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+﻿@model NewEmployeeViewModel
+
+@{
+    ViewBag.Title = "New Employee";
+}
+
+<h3>Add an employee</h3>
+
+<div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Lastname</th>
+                <th>Personal ID</th>
+                <th></th>
+
+        </thead>
+        @foreach (var person in Model.Persons)
+        {
+            <tbody>
+                <tr>
+                    <td class="col-sm-3">@person.FirstName</td>
+                    <td class="col-sm-3">@person.LastName</td>
+                    <td class="col-sm-3">@person.PersonalNumber</td>
+                    <td class="col-sm-3">
+                        <form asp-controller="Organization" asp-action="AddEmployeeToOrganization" asp-route-personId="@person.Id" asp-route-organizationId="@Model.OrganizationId" method="post">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+
+        }
+    </table>
+    <a asp-action="OrganizationDetails" asp-route-id="@Model.OrganizationId" class="btn btn-primary">Return</a>
+</div>
